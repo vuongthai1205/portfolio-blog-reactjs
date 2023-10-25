@@ -1,0 +1,97 @@
+@use "variables";
+@use "base";
+@use "fontface";
+
+@mixin d-flex($align-items: start, $justify-content: start) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin t-text($font-size: 16px, $font-weight: 400, $text-color: black) {
+  color: $text-color;
+  font-weight: $font-weight;
+  font-size: $font-size;
+}
+
+@mixin btn(){
+  padding: 9px 21px ; 
+  background-color: variables.$second-color;
+  @include t-text(20px, 400, white);
+  border-radius: 4px;
+}
+
+header {
+  .menu {
+    @include d-flex(null, end);
+    padding: 27px 0;
+    &_link {
+      margin-left: 30px;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+.footer {
+  padding: 54px 0;
+  &-icons {
+    @include d-flex(null, center);
+    gap: 35px;
+    margin-bottom: 26px;
+    &_item {
+      img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+    }
+  }
+  &-copyright {
+    text-align: center;
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.introduce {
+  padding: 71px 0;
+  &_text {
+    h1 {
+      margin-bottom: 40px;
+      @include t-text(44px, 700, variables.$primary-color);
+      line-height: 60px;
+
+    }
+    h2 {
+      @include t-text(16px, 400, variables.$primary-color);
+      margin-bottom: 38px;
+    }
+  }
+
+  &_btn{
+    @include btn();
+  }
+  &_img{
+    img{
+      width: 243px;
+      border-radius: 50%;
+      box-shadow: -10px 10px variables.$sky-color;
+    }
+  }
+}
+
+@media (max-width: 789px) {
+  .introduce{
+    &_right{
+      order: 1;
+      margin-bottom: 30px;
+    }
+    &_left{
+      order: 2;
+    }
+  }
+  .introduce_img{
+      @include d-flex(null, center);
+  }
+}
