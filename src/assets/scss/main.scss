@@ -1,0 +1,193 @@
+@use "variables";
+@use "base";
+@use "fontface";
+
+@mixin d-flex($align-items: start, $justify-content: start) {
+  display: flex;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin t-text($font-size: 16px, $font-weight: 400, $text-color: black) {
+  color: $text-color;
+  font-weight: $font-weight;
+  font-size: $font-size;
+}
+
+@mixin btn() {
+  padding: 9px 21px;
+  background-color: variables.$second-color;
+  @include t-text(20px, 400, white);
+  border-radius: 4px;
+}
+
+header {
+  .menu {
+    @include d-flex(null, end);
+    padding: 27px 0;
+    &_link {
+      margin-left: 30px;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}
+
+.footer {
+  padding: 54px 0;
+  &-icons {
+    @include d-flex(null, center);
+    gap: 35px;
+    margin-bottom: 26px;
+    &_item {
+      img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+    }
+  }
+  &-copyright {
+    text-align: center;
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.introduce {
+  padding: 71px 0;
+  &_text {
+    h1 {
+      margin-bottom: 40px;
+      @include t-text(44px, 700, variables.$primary-color);
+      line-height: 60px;
+    }
+    h2 {
+      @include t-text(16px, 400, variables.$primary-color);
+      margin-bottom: 38px;
+    }
+  }
+
+  &_btn {
+    @include btn();
+  }
+  &_img {
+    img {
+      width: 243px;
+      border-radius: 50%;
+      box-shadow: -10px 10px variables.$sky-color;
+    }
+  }
+}
+
+.posts-recents {
+  background-color: variables.$sky-color;
+  padding-bottom: 32px;
+  &_text {
+    padding: 27px 0;
+    @include d-flex(null, space-between);
+    span {
+      @include t-text(22px, 400, variables.$primary-color);
+    }
+    a {
+      @include t-text(16px, 400, variables.$sky-dark-color);
+    }
+  }
+  &_item {
+    background-color: white;
+    padding: 24px;
+    border-radius: 8px;
+  }
+  &_title {
+    @include t-text(26px, 700, variables.$primary-color);
+    margin-bottom: 17px;
+  }
+  &_meta {
+    @include t-text(18px, 400, variables.$primary-color);
+    margin-bottom: 17px;
+  }
+
+  &_date {
+    position: relative;
+    margin-right: 50px;
+    &::after {
+      position: absolute;
+      content: "";
+      height: 100%;
+      width: 1px;
+      background-color: variables.$primary-color;
+      top: 0;
+      right: -25px;
+    }
+  }
+  &_des {
+    @include t-text(16px, 400, variables.$primary-color);
+  }
+}
+
+.feature-works {
+  > span {
+    @include t-text(22px, 400, variables.$primary-color);
+    padding: 27px 0;
+    display: inline-block;
+  }
+  &_item {
+    padding: 15px 0;
+    border-bottom: 1px solid variables.$ash-gray-color;
+  }
+  &_title {
+    @include t-text(30px, 700, variables.$primary-color);
+    margin-bottom: 20px;
+  }
+  &_meta {
+    margin-bottom: 22px;
+  }
+  &_year {
+    background-color: variables.$dark-navy-color;
+    @include t-text(18px, 700, white);
+    border-radius: 16px;
+    padding: 1px 10px;
+    margin-right: 26px;
+  }
+
+  &_purpose {
+    @include t-text(20px, 400, variables.$ligth-color);
+  }
+  &_img {
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+  &_des {
+    display: block;
+    display: -webkit-box;
+    max-width: 100%;
+    height: 97px;
+    margin: 0 auto;
+    font-size: 16px;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 789px) {
+  .introduce {
+    &_right {
+      order: 1;
+      margin-bottom: 30px;
+    }
+    &_left {
+      order: 2;
+    }
+  }
+  .introduce_img {
+    @include d-flex(null, center);
+  }
+  .feature-works_img{
+    margin-bottom: 12px;
+  }
+}
