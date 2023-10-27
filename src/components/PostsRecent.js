@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { getDatabase, ref, onValue, set } from "firebase/database";
+import { app } from "../config/firebase";
 function PostRecent() {
+  
+
   const [listPost, setListPost] = useState([
     {
       id: 1,
@@ -55,23 +58,21 @@ function PostRecent() {
                     <Col lg={6} key={i}>
                       <div className="posts-recents_item">
                         <h2 className="posts-recents_title">
-                          <Link to={`/post/${p.id}`}>
-                            {p.title}
-                          </Link>
+                          <Link to={`/post/${p.id}`}>{p.title}</Link>
                         </h2>
                         <div className="posts-recents_meta">
                           <span className="posts-recents_date">
                             {p.createAt}
                           </span>
                           <span className="posts-recents_cat">
-                            {p.listCat.map((c, i) => {
-                              return (c.name)
-                            }).join(", ")}
+                            {p.listCat
+                              .map((c, i) => {
+                                return c.name;
+                              })
+                              .join(", ")}
                           </span>
                         </div>
-                        <p className="posts-recents_des">
-                          {p.description}
-                        </p>
+                        <p className="posts-recents_des">{p.description}</p>
                       </div>
                     </Col>
                   );
