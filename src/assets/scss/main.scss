@@ -191,3 +191,20 @@ header {
     margin-bottom: 12px;
   }
 }
+
+.title-page{
+  text-align: center;
+  padding: 12px 0;
+}
+
+.btn-login{
+  @include btn();
+  border: none;
+  &-google{
+    @include btn();
+    border: none;
+    margin-top: 8px;
+    background-color: variables.$sky-color;
+    color: black;
+  }
+}
