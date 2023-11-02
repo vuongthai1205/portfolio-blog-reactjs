@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
-import { GoogleAuthProvider,signInWithPopup, getAuth } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import cookie from "react-cookies";
+import { useNavigate } from "react-router-dom";
 import { app } from "../config/firebase";
+import { LoginContext } from "../App";
 function Login() {
+  const navigate = useNavigate();
+  const [user, dispatch] = useContext(LoginContext);
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
   });
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formLogin);
+    const auth = getAuth(app);
+    signInWithEmailAndPassword(auth, formLogin.email, formLogin.password)
+      .then((userCredential) => {
+        // Signed up
+        const u = userCredential.user;
+        cookie.save("user", u);
+        dispatch({
+          type: "login",
+          payload: u,
+        });
+        navigate("/admin");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
   const handleLoginGoogle = async (e) => {
     const provider = new GoogleAuthProvider();
@@ -23,10 +43,16 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         // The signed-in user info.
-        const user = result.user;
+        const u = result.user;
         // IdP data available using getAdditionalUserInfo(result)
         // ...
-        console.log(token, user)
+        console.log(token, u);
+        cookie.save("user", u);
+        dispatch({
+          type: "login",
+          payload: u,
+        });
+        navigate("/admin");
       })
       .catch((error) => {
         // Handle Errors here.
@@ -39,7 +65,6 @@ function Login() {
         // ...
       });
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormLogin((prevData) => ({

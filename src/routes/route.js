@@ -9,6 +9,8 @@ import PostDetail from "../pages/PostDetail";
 import WorkDetail from "../pages/WorkDetail";
 import LoginLayout from "../layout/LoginLayout";
 import Login from "../pages/Login";
+import AdminLayout from "../layout/AdminLayout";
+import AdminPage from "../pages/Admin";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -19,6 +21,9 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="/login" element={<LoginLayout />}>
         <Route index element={<Login />} />
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminPage />} />
       </Route>
     </>
   )

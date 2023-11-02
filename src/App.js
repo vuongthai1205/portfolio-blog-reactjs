@@ -1,24 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
-
+import logo from "./logo.svg";
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/route";
+import { createContext, useContext, useReducer } from "react";
+import LoginReducer from "./reducer/LoginReducer";
+import cookie from "react-cookies";
+export const LoginContext = createContext();
 function App() {
+  const [user, dispatch] = useReducer(
+    LoginReducer,
+    cookie.load("user") || null
+  );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <LoginContext.Provider value={[user, dispatch]}>
+      <RouterProvider router={router} />
+    </LoginContext.Provider>
   );
 }
 
