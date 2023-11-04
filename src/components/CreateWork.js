@@ -3,21 +3,41 @@ import { Button, Form } from "react-bootstrap";
 import { app } from "../config/firebase";
 import {
   getStorage,
-  ref,
+  ref as refStorage,
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+import { getDatabase, ref as databaseRef, set } from "firebase/database";
+import { nanoid } from "nanoid";
 function CreateWork() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    content: "",
     image: "",
+    yearCreate: "",
+    purpose: "",
   });
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const handleAddWork = (e) => {
     e.preventDefault();
+    const db = getDatabase(app);
+    set(databaseRef(db, "works/" + nanoid(10)), formData);
+    setFormData({
+      title: "",
+      description: "",
+      content: "",
+      image: "",
+      yearCreate: "",
+      purpose: "",
+    });
+    setEditorState(EditorState.createEmpty());
   };
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -30,7 +50,7 @@ function CreateWork() {
     if (e.target.files[0]) {
       const image = e.target.files[0];
       const storageRef = getStorage(app);
-      const imageRef = ref(storageRef, `images/${image.name}`);
+      const imageRef = refStorage(storageRef, `images/${image.name}`);
       const uploadTask = uploadBytesResumable(imageRef, image);
       uploadTask.on(
         "state_changed",
@@ -66,6 +86,14 @@ function CreateWork() {
       );
     }
   };
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      content: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+    }));
+  };
+  console.log(formData);
   return (
     <Form onSubmit={handleAddWork}>
       <h2>Add work</h2>
@@ -78,6 +106,31 @@ function CreateWork() {
         placeholder="Please enter title..."
         required
       />
+      <Editor
+        editorState={editorState}
+        toolbarClassName="toolbarClassName"
+        wrapperClassName="wrapperClassName"
+        editorClassName="editorClassName"
+        onEditorStateChange={onEditorStateChange}
+        placeholder="Content"
+      />
+      <Form.Select
+        className="my-2"
+        name="yearCreate"
+        onChange={handleInputChange}>
+        <option>Year Create</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+      </Form.Select>
+
+      <Form.Select className="my-2" name="purpose" onChange={handleInputChange}>
+        <option>Purpose</option>
+        <option value="Front end developer">Front end developer</option>
+        <option value="Back end developer">Back end developer</option>
+        <option value="Full stack developer">Full stack developer</option>
+      </Form.Select>
+
       <Form.Control
         className="mb-2"
         type="des"
