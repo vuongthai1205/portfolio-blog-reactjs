@@ -23,19 +23,19 @@ function CreateWork() {
     purpose: "",
   });
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const handleAddWork = async (e) => {
+  const handleAddWork = (e) => {
     e.preventDefault();
     const db = getDatabase(app);
-    await set(databaseRef(db, "works/" + nanoid(10)), formData);
+    set(databaseRef(db, "works/" + nanoid(10)), formData);
     setFormData({
       title: "",
-    description: "",
-    content: "",
-    image: "",
-    yearCreate: "",
-    purpose: "",
+      description: "",
+      content: "",
+      image: "",
+      yearCreate: "",
+      purpose: "",
     });
-    setEditorState(EditorState.createEmpty())
+    setEditorState(EditorState.createEmpty());
   };
 
   const handleInputChange = (e) => {
@@ -114,7 +114,10 @@ function CreateWork() {
         onEditorStateChange={onEditorStateChange}
         placeholder="Content"
       />
-      <Form.Select className="my-2" name="yearCreate" onChange={handleInputChange}>
+      <Form.Select
+        className="my-2"
+        name="yearCreate"
+        onChange={handleInputChange}>
         <option>Year Create</option>
         <option value="2021">2021</option>
         <option value="2022">2022</option>
