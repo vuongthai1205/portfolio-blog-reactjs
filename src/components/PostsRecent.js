@@ -43,7 +43,7 @@ function PostRecent() {
     },
   ]);
   return (
-    <div className="posts-recents">
+    <div className="posts-recents" id="posts-recents">
       <Container>
         <Row>
           <Col>

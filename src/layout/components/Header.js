@@ -10,13 +10,13 @@ function Header() {
             <div className="main-header">
               <ul className="menu">
                 <li className="menu_item">
-                  <Link to={"#"} className="menu_link">Works</Link>
+                  <a href="#feature-works"  className="menu_link">Works</a>
                 </li>
                 <li className="menu_item">
-                  <Link to={"#"} className="menu_link">Blog</Link>
+                  <a href={"#posts-recents"} className="menu_link">Blog</a>
                 </li>
                 <li className="menu_item">
-                  <Link to={"#"} className="menu_link">Contact</Link>
+                  <a href={"#contact"} className="menu_link">Contact</a>
                 </li>
               </ul>
             </div>
